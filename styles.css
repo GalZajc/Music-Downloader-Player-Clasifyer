@@ -1,0 +1,1888 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    padding: 0 0 5px 5px;
+    /* Removed top padding to let sidebar touch top edge */
+    /* Removed right padding to allow sidebar to touch window edge */
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    height: 100vh;
+    overflow: hidden;
+    /* Prevent outer scrollbars */
+    border-radius: 0 !important;
+    /* Sharp corners */
+}
+
+.app-layout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    gap: 5px;
+    /* Added gap */
+}
+
+.main-container {
+    margin-top: 5px;
+    /* Maintain 5px gap from top for main area */
+    flex: 1;
+    margin: 0;
+    background-color: #2a2a2a;
+    padding: 5px;
+    /* Reduced to 5px */
+    border: 1px solid #444;
+    border-radius: 0 !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.section {
+    margin-bottom: 0;
+    /* Use container gap instead to avoid doubling */
+    padding: 5px;
+    /* Reduced to 5px */
+    border: 1px solid #444;
+    border-radius: 3px;
+    background-color: #333;
+}
+
+.section-title {
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 6px;
+    padding: 3px;
+    background-color: #3a3a3a;
+    border-radius: 2px;
+    color: #f0f0f0;
+}
+
+/* Directory Section */
+.dir-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dir-section label {
+    font-weight: bold;
+    white-space: nowrap;
+    color: #e0e0e0;
+}
+
+.dir-section input[type="text"] {
+    flex: 1;
+    padding: 3px 5px;
+    font-size: 11px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.dir-section button {
+    padding: 3px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* CSV Section */
+.csv-section {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.csv-section label {
+    font-weight: bold;
+    white-space: nowrap;
+    color: #e0e0e0;
+}
+
+.csv-section button {
+    padding: 3px 8px;
+    font-size: 11px;
+}
+
+/* Song Section */
+.song-section {
+    min-height: 60px;
+}
+
+#songInfo {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: #e0e0e0;
+}
+
+/* Timeline */
+.timeline-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.timeline-container span {
+    font-size: 10px;
+    min-width: 35px;
+    text-align: center;
+    color: #b0b0b0;
+}
+
+#timeline {
+    flex: 1;
+    height: 4px;
+    cursor: pointer;
+    background: #444;
+}
+
+#timeline::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background: #5a9fd4;
+    border-radius: 50%;
+}
+
+#timeline::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background: #5a9fd4;
+    border-radius: 50%;
+    border: none;
+}
+
+/* Control Section */
+.control-section-inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Center buttons */
+}
+
+/* Player Group Container */
+.player-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+button {
+    padding: 4px 8px;
+    font-size: 11px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4a4a4a;
+    border-color: #666;
+}
+
+button:active {
+    background-color: #2a2a2a;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 10px;
+    font-size: 11px;
+    color: #e0e0e0;
+}
+
+.checkbox-label input[type="checkbox"] {
+    cursor: pointer;
+}
+
+/* Classifications Section */
+.classifications-section {
+    flex: 1;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.classifications-section .section-title {
+    flex-shrink: 0;
+}
+
+.classifications-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100%;
+    padding-bottom: 5px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+#durationProgressBarContainer {
+    padding: 5px;
+    background-color: #222;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+#durationProgressBar {
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+#classificationsContent,
+#permutationContent {
+    display: flex;
+    gap: 5px;
+    height: 100%;
+    align-items: stretch;
+}
+
+.classification-column {
+    width: 180px;
+    /* Fixed width */
+    flex-shrink: 0;
+    /* Don't shrink */
+    border: 1px solid #444;
+    border-radius: 3px;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    /* Changed from height: 100% */
+}
+
+.column-header {
+    font-weight: bold;
+    font-size: 11px;
+    padding: 5px;
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #444;
+    text-align: center;
+    color: #f0f0f0;
+}
+
+.column-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 5px;
+    background-color: #1a1a1a;
+    /* Darker background for contrast */
+}
+
+.column-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.column-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.column-content::-webkit-scrollbar-thumb {
+    background: #666;
+    /* Match lighter scrollbar */
+    border-radius: 3px;
+}
+
+.radio-item,
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 2px 5px;
+    font-size: 11px;
+    color: #e0e0e0;
+}
+
+.radio-item input,
+.checkbox-item input {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.radio-item label,
+.checkbox-item label {
+    cursor: pointer;
+    flex: 1;
+    color: #e0e0e0;
+    white-space: pre-wrap;
+    /* Preserve leading/trailing spaces */
+}
+
+.other-input {
+    width: 100%;
+    padding: 2px 5px;
+    font-size: 11px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    margin-top: 2px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.separator {
+    height: 1px;
+    background-color: #444;
+    margin: 5px 0;
+}
+
+/* Bottom Section */
+.bottom-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#saveBtn {
+    font-weight: bold;
+}
+
+#stats {
+    flex: 1;
+    font-size: 11px;
+    color: #b0b0b0;
+}
+
+/* Shortcuts Info */
+.shortcuts-info {
+    font-size: 9px;
+    color: #888;
+    text-align: center;
+    margin-top: 5px;
+    padding: 3px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    border-radius: 8px;
+    width: auto;
+    min-width: 500px;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    /* Fixes hybrid corners */
+}
+
+/* Specific width for Backup Modal (Download Music) - "In between" size */
+#backupModal .modal-content {
+    width: 750px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 6px;
+    /* Reduced header height */
+    border-bottom: 1px solid #444;
+    background-color: #333;
+}
+
+.modal-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #f0f0f0;
+}
+
+.close,
+.close-playlists,
+.close-songs {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.close:hover,
+.close-playlists:hover,
+.close-songs:hover {
+    color: #e0e0e0;
+}
+
+.modal-body {
+    flex: 1;
+    padding: 8px 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-subtitle {
+    font-size: 10px;
+    margin-bottom: 5px;
+    color: #999;
+}
+
+.filter-options {
+    flex: 1;
+    overflow: hidden;
+    border: 1px solid #444;
+    border-radius: 3px;
+    background-color: #333;
+    padding: 5px;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 5px;
+    padding: 6px 10px;
+    border-top: 1px solid #444;
+    background-color: #333;
+}
+
+.modal-footer button {
+    padding: 5px 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 5px;
+    }
+
+    .dir-section {
+        flex-wrap: wrap;
+    }
+
+    .control-section {
+        justify-content: center;
+    }
+}
+
+/* Setup Modal Styles */
+.setup-modal-content {
+    max-width: 500px;
+}
+
+.setup-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.setup-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.setup-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    background-color: #5a9fd4;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.setup-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.setup-content label {
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+.setup-row {
+    display: flex;
+    gap: 5px;
+}
+
+.setup-row input[type="text"] {
+    flex: 1;
+    padding: 5px 8px;
+    font-size: 11px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.setup-row button {
+    padding: 5px 12px;
+    white-space: nowrap;
+}
+
+#setupCompleteBtn {
+    background-color: #5a9fd4;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 12px;
+}
+
+#setupCompleteBtn:hover {
+    background-color: #4a8fc4;
+}
+
+#setupStartBtn {
+    background-color: #4a7c59;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 12px;
+}
+
+#setupStartBtn:hover {
+    background-color: #3a6c49;
+}
+
+.setup-modal-content .modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.setup-load-config {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    border: 1px dashed #555;
+}
+
+.setup-load-config span {
+    color: #aaa;
+}
+
+#setupLoadDefaultConfigBtn {
+    background-color: #5a9fd4;
+    color: #fff;
+}
+
+#setupLoadDefaultConfigBtn:hover {
+    background-color: #4a8fc4;
+}
+
+#setupLoadConfigBtn {
+    background-color: #666;
+    color: #fff;
+}
+
+#setupLoadConfigBtn:hover {
+    background-color: #555;
+}
+
+#setupUpdateCSVBtn {
+    background-color: #666;
+    color: #fff;
+    padding: 5px 8px;
+}
+
+#setupUpdateCSVBtn:hover {
+    background-color: #555;
+}
+
+/* Header Section */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-left {
+    display: flex;
+    gap: 5px;
+}
+
+.primary-btn {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.arrow-icon {
+    color: #e74c3c;
+    /* Red */
+    margin-right: 4px;
+    font-weight: bold;
+}
+
+.white-icon {
+    color: white !important;
+}
+
+/* Song Section Refined */
+.song-section-info {
+    display: flex;
+    align-items: center;
+    background-color: #222;
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.song-info-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    min-width: 0;
+    font-size: 11px;
+    /* Significantly smaller */
+}
+
+#songInfoLeft {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+#songInfoRight {
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 15px;
+    color: #888;
+}
+
+.song-section-timeline {
+    padding: 4px 10px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.song-section-timeline .timeline-container {
+    width: 100%;
+    margin-top: 0;
+}
+
+/* Classifications Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.section-header .section-title {
+    margin-bottom: 0;
+}
+
+.section-header small {
+    font-weight: normal;
+    color: #888;
+    margin-left: 5px;
+}
+
+.header-stats {
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* Thumbnail Sidebar */
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    border-left: 1px solid #444;
+    position: relative;
+    width: 65px;
+}
+
+#centerSongBtn {
+    background-color: #333;
+    border: 1px solid #444;
+    /* Restored top border for rounding */
+    color: #00aaff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 0;
+    width: 55px;
+    /* Matches .thumbnail-item width */
+    height: 24px;
+    transition: background-color 0.2s, color 0.2s;
+    z-index: 10;
+    margin: 0 5px 0 5px;
+    border-radius: 4px;
+}
+
+#centerSongBtn:hover {
+    background-color: #444;
+    color: #ffffff;
+}
+
+.thumbnail-sidebar {
+    width: 65px;
+    height: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 2px 5px;
+    /* Compact padding */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+.thumbnail-sidebar::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Brave */
+}
+
+.thumbnail-item {
+    width: 55px;
+    height: 55px;
+    background-color: #000;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+}
+
+.thumbnail-item:hover {
+    border-color: #5a9fd4;
+}
+
+.thumbnail-item.active {
+    border-color: #ff9800;
+}
+
+.thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.backup-controls-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+.backup-progress {
+    padding: 5px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+.backup-progress .progress-bar-bg {
+    margin-top: 5px;
+}
+
+.backup-settings-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 0;
+    margin-top: 6px !important;
+    /* Fixed small gap */
+}
+
+.backup-limit-section,
+.backup-delay-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.backup-limit-section label,
+.backup-delay-section label {
+    font-size: 11px;
+    color: #aaa;
+    white-space: nowrap;
+}
+
+.dark-input {
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    border: 1px solid #444 !important;
+    border-radius: 2px !important;
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    height: 20px !important;
+    line-height: normal !important;
+    display: inline-block !important;
+    box-shadow: none !important;
+}
+
+.dark-input:focus {
+    border-color: #0078d4 !important;
+    background-color: #222 !important;
+}
+
+/* Specific standard check for numeric inputs to look identical */
+input[type="number"].dark-input {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+input[type="number"].dark-input::-webkit-outer-spin-button,
+input[type="number"].dark-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.dark-input-small {
+    width: 65px !important;
+    text-align: center;
+    margin: 0;
+}
+
+/* Full-bleed modals for 100% viewport coverage (Height only as requested) */
+.full-bleed-modal {
+    height: 100% !important;
+    max-height: none !important;
+    top: 0 !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    border-radius: 8px !important;
+    /* Rounded corners as requested */
+    /* Maintain default width of .modal-content or .playlist-modal-content */
+}
+
+/* Full-height modals for lists */
+.full-height-modal {
+    height: calc(100% - 20px) !important;
+    top: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+    max-height: none !important;
+}
+
+/* Cookie Modal Specifics */
+.close-cookie {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-cookie:hover {
+    color: #e0e0e0;
+}
+
+#cookieModal a {
+    text-decoration: none;
+}
+
+#cookieModal a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive fix for backup buttons */
+.backup-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.thumbnail-item::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    white-space: pre;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+    pointer-events: none;
+    line-height: 1.4;
+    border: 1px solid #444;
+}
+
+.thumbnail-item:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Playlist Modal */
+.playlist-modal-content {
+    max-width: 600px;
+    height: 80vh;
+}
+
+.playlist-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    border-bottom: 1px solid #444;
+}
+
+.playlist-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.playlist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #333;
+}
+
+.playlist-item:hover {
+    background-color: #3a3a3a;
+}
+
+/* Header row styling - lighter background, no hover */
+.playlist-item.header-row {
+    background-color: #3a3a3a;
+    /* Slightly lighter than normal #333 */
+    padding-left: 18px;
+    /* Align checkbox with items below */
+}
+
+.playlist-item.header-row:hover {
+    background-color: #3a3a3a;
+    /* No color change on hover */
+}
+
+/* Align checkbox vertically in header row */
+.playlist-item.header-row input[type="checkbox"] {
+    align-self: center;
+    margin-left: 10px;
+    /* Move checkbox to the right */
+}
+
+.playlist-item label {
+    flex: 1;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0;
+    /* Important for flex child truncation */
+    max-width: 100%;
+    /* Prevent overflow */
+    overflow: hidden;
+    /* Ensure truncation works */
+}
+
+/* Prevent Select All label from eating up search bar space */
+.playlist-item label[for="selectAllPlaylists"],
+.playlist-item label[for="selectAllSongs"] {
+    flex: 0 0 auto;
+    margin-right: 10px;
+}
+
+.playlist-item .song-count {
+    color: #888;
+    font-size: 10px;
+}
+
+.modal-body {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* Global modal body gap */
+}
+
+.sort-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.playlist-trigger-section {
+    margin: 0;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#selectedPlaylistsCount {
+    font-size: 11px;
+    color: #e0e0e0;
+}
+
+.duration-filter-section {
+    margin: 0;
+    /* Remove top margin, container gap handles it */
+    padding: 5px;
+    background-color: #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.duration-filter-section input {
+    width: 60px;
+    padding: 5px;
+    background-color: #444;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 4px;
+}
+
+/* Custom Scrollbar for playlist list */
+.playlist-list::-webkit-scrollbar {
+    display: block;
+    width: 2px;
+    /* Very thin */
+}
+
+.playlist-list::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.playlist-list::-webkit-scrollbar-thumb {
+    background: #666;
+    /* Lighter than track (#1a1a1a) and previous (#444) */
+    border-radius: 2px;
+}
+
+.playlist-list {
+    scrollbar-width: thin;
+    scrollbar-color: #666 #1a1a1a;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+}
+
+/* Playlist & Song Modal Inputs */
+#playlistSearch,
+#playlistSortSelect,
+#songSearch,
+#songSortSelect {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+#playlistSearch,
+#songSearch {
+    flex: 1;
+    /* Ensure they take up all available space */
+    min-width: 0;
+}
+
+#playlistSearch::placeholder,
+#songSearch::placeholder {
+    color: #888;
+}
+
+#playlistSortSelect option,
+#songSortSelect option {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+/* Sidebar Wrapper Fix for Button */
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.thumbnail-sidebar {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Header Right for multiple buttons */
+.header-right {
+    display: flex;
+    gap: 5px;
+}
+
+/* YouTube Backup Modal Styles */
+.backup-modal-content {
+    max-width: 950px;
+    height: 98vh;
+    /* Almost full height */
+    max-height: none;
+    /* Override default 90vh limit */
+    margin: 1vh auto;
+    /* 1vh top/bottom, auto left/right */
+    display: flex;
+    flex-direction: column;
+}
+
+.close-backup,
+.close-unavailable,
+.close-deleted {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-backup:hover,
+.close-unavailable:hover,
+.close-deleted:hover {
+    color: #e0e0e0;
+}
+
+.backup-top-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.backup-folder-section {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.backup-folder-section label {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+.backup-folder-row {
+    display: flex;
+    gap: 8px;
+}
+
+.backup-folder-row input {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 11px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.unavailable-btn {
+    background-color: #c0392b;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.unavailable-btn:hover {
+    background-color: #a93226;
+}
+
+.danger-btn {
+    background-color: #c0392b;
+    color: white;
+    font-weight: bold;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.danger-btn:hover {
+    background-color: #a93226;
+}
+
+.backup-modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    gap: 5px !important;
+    /* Strict 5px standard */
+    padding: 5px !important;
+}
+
+.backup-playlist-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #333;
+    margin-bottom: 0px !important;
+    /* Gap will be managed by parent .modal-body gap: 5px */
+}
+
+.backup-playlist-section .playlist-list {
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #444;
+}
+
+.backup-playlist-section .playlist-list .playlist-item {
+    border-bottom: 1px solid #444;
+    padding: 6px 8px;
+}
+
+.backup-playlist-section .playlist-list .playlist-item:last-child {
+    border-bottom: none;
+}
+
+.backup-placeholder {
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+/* Consolidated duplicates removed */
+
+.backup-delay-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e0e0e0;
+}
+
+.backup-delay-section input {
+    padding: 2px 5px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    width: 45px;
+    font-size: 12px;
+    /* Match surrounding text size */
+    text-align: left;
+}
+
+.backup-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.backup-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.backup-progress {
+    padding: 5px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+#backupStatus {
+    font-size: 12px;
+    color: #e0e0e0;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    background: #333;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#backupProgressBar {
+    height: 100%;
+    background: linear-gradient(90deg, #00aaff, #00ffaa);
+    transition: width 0.3s ease;
+}
+
+#backupProgressText {
+    color: #888;
+}
+
+/* Backup playlist search and sort (match existing styles) */
+#backupPlaylistSearch,
+#backupPlaylistSortSelect {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+#backupPlaylistSearch {
+    flex: 1;
+    min-width: 0;
+}
+
+#backupPlaylistSearch::placeholder {
+    color: #888;
+}
+
+#backupPlaylistSortSelect option {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+/* Manage Unavailable Button - Red/Warning style */
+#manageUnavailableBtn {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    font-weight: bold;
+    height: 100%;
+    /* Match Browse button height in flex row */
+}
+
+#selectAllBackupPlaylists,
+#selectAllPlaylists,
+#selectAllSongs {
+    margin-left: 17px !important;
+    /* Half tick box side length ~8px + existing 8px */
+}
+
+#manageUnavailableBtn:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Close button for backup and unavailable modals */
+.close-backup,
+.close-unavailable {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-backup:hover,
+.close-unavailable:hover {
+    color: #e0e0e0;
+}
+
+/* Unavailable modal list actions */
+#unavailableList .checkbox-item {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+}
+
+#unavailableList .unavailable-item {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    /* Slightly compacted */
+    border-bottom: 1px solid #444;
+    gap: 5px;
+    font-size: 10px;
+}
+
+#unavailableList .unavailable-item img {
+    display: none;
+    /* Hide icons as requested */
+}
+
+/* Button Colors */
+#startDownloadBtn,
+#restoreDeletedBtn,
+#retryUnavailableBtn,
+#startPermutationBtn,
+#createPermutationSubmitBtn {
+    background-color: #4CAF50 !important;
+    /* Green */
+    color: white !important;
+}
+
+#startDownloadBtn:hover,
+#restoreDeletedBtn:hover,
+#retryUnavailableBtn:hover,
+#startPermutationBtn:hover,
+#createPermutationSubmitBtn:hover {
+    background-color: #45a049 !important;
+}
+
+#manageDeletedBtn,
+#manageUnavailableBtn {
+    background-color: #f44336 !important;
+    /* Red */
+    color: white !important;
+}
+
+#manageDeletedBtn:hover,
+#manageUnavailableBtn:hover {
+    background-color: #d32f2f !important;
+}
+
+/* YT buttons in unavailable and deleted menus */
+#unavailableList .yt-btn,
+#deletedList .yt-btn {
+    background-color: #f44336 !important;
+    /* Red as requested */
+    color: white !important;
+}
+
+/* Compacting Unavailable and Deleted Menu Buttons */
+#unavailableList .yt-pl-btn,
+#deletedList .yt-pl-btn {
+    background-color: #f44336 !important;
+    /* Red */
+    color: white !important;
+    padding: 1px 6px;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+#unavailableList .wbm-btn,
+#deletedList .wbm-btn {
+    background-color: #666 !important;
+    /* Light Gray */
+    color: white !important;
+    padding: 1px 6px;
+    font-size: 10px;
+    margin-left: 2px;
+}
+
+#unavailableList .checkbox-item {
+    /* Use flexible flex layout if not using table */
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-bottom: 1px solid #444;
+}
+
+/* Backup modal header row with folder selection */
+.backup-folder-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* Standard 5px gap */
+    margin-bottom: 5px;
+}
+
+.backup-folder-row label {
+    white-space: nowrap;
+    color: #e0e0e0;
+}
+
+.backup-folder-row input[type="text"] {
+    flex: 1;
+    padding: 6px 10px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 3px;
+}
+
+.backup-folder-row button {
+    padding: 5px;
+    white-space: nowrap;
+    align-self: stretch;
+}
+
+
+
+/* Backup modal header with unavailable button */
+.backup-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 5px;
+}
+
+/* Playlist header row like main playlist selector */
+.playlist-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: none;
+    /* Removed thick line as requested */
+    background-color: #2a2a2a;
+    gap: 10px;
+}
+
+.playlist-header .checkbox-item {
+    background-color: rgba(80, 80, 80, 0.3);
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+/* Unavailable Video Item Styling */
+.unavailable-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #444;
+    gap: 5px;
+}
+
+.unavail-thumb img {
+    width: 60px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.unavail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.unavail-title {
+    font-size: 12px;
+    color: #e0e0e0;
+    font-weight: bold;
+}
+
+.unavail-date {
+    font-size: 10px;
+    color: #888;
+}
+
+.unavailable-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.open-p-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.open-p-btn:hover {
+    background-color: #2980b9;
+}
+
+.remove-btn:hover {
+    background-color: #c0392b;
+}
+
+.dark-mode-select {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 11px;
+    height: 22px;
+    cursor: pointer;
+    outline: none;
+}
+
+.dark-mode-select:hover {
+    border-color: #666;
+}
+
+.dark-mode-select option {
+    background-color: #222;
+    color: #e0e0e0;
+}
+
+
+/* Progress Bar Labels */
+#backupStatusLabel {
+    flex-shrink: 0;
+    min-width: 70px;
+    /* Ensure space for "Downloading" */
+}
+
+#backupItemName {
+    flex: 1;
+    min-width: 0;
+    /* Allow flex child to shrink below content size */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ================================================
+   Task 2: Center Modal Popups
+   ================================================ */
+
+/* Startup Scan Modal - Absolute Center */
+#startupScanModal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+/* Permutation Modal - Absolute Center */
+#permutationModal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+/* Selector Modals - 98% height (1% margin top/bottom) */
+#playlistModal .modal-content.playlist-modal-content,
+#songModal .modal-content.playlist-modal-content,
+#unavailableModal .modal-content.playlist-modal-content,
+#manuallyDeletedModal .modal-content.playlist-modal-content {
+    height: 98vh;
+    max-height: 98vh;
+    margin: 1vh auto;
+}
+
+/* ================================================
+   Task 3: Thin Scrollbar on Thumbnail Sidebar
+   ================================================ */
+
+/* Consolidated with main styles above */
+
+/* ================================================
+   Task 9: Smaller Delay Input Font
+   ================================================ */
+
+.backup-delay-section input {
+    font-size: 11px;
+}
+
+/* ================================================
+   Task 11: Align Unavailable Songs Button Height
+   ================================================ */
+
+button,
+.btn,
+.primary-btn,
+.secondary-btn,
+.action-btn,
+.backup-btn,
+.yt-btn,
+.open-p-btn,
+.wbm-btn,
+.login-btn,
+.modal-btn,
+input[type="button"],
+input[type="submit"] {
+    padding: 2px 8px !important;
+    /* Aggressively reduced padding */
+    font-size: 11px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    line-height: normal !important;
+}
+
+/* Playlist, Song, Download modals - shift right */
+#playlistModal .header-row input[type="checkbox"],
+#songModal .header-row input[type="checkbox"],
+.backup-playlist-section>div:first-child input[type="checkbox"] {
+    margin-left: 9px;
+}
+
+/* Specific offsets for header checkboxes to align with items below */
+#selectAllBackupPlaylists {
+    margin-left: 13px !important;
+    /* Original 9 + 4 */
+}
+
+#selectAllDeleted {
+    margin-left: 13px !important;
+    /* Original 9 + 4 */
+}
+
+#selectAllPlaylists,
+#selectAllSongs {
+    margin-left: 5px !important;
+}
+
+#selectAllUnavailable {
+    margin-left: 8px !important;
+}
+
+/* ================================================
+   Task 18: Restoration and UI Refinements
+   ================================================ */
+
+/* Songs I Deleted Button (Orange) */
+.deleted-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.deleted-btn:hover {
+    background-color: #f57c00;
+}
+
+/* Status Dots for Unavailable Videos */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.status-dot-yellow {
+    background-color: #ffeb3b;
+}
+
+/* Missing Thumbnail */
+.status-dot-orange {
+    background-color: #ff9800;
+}
+
+/* Missing Audio */
+.status-dot-red {
+    background-color: #f44336;
+}
+
+/* Missing Both */
+
+/* Ensure buttons in backup top row have consistent height */
+#browseTakeoutBtn {
+    padding: 8px 12px;
+    /* Match the others explicitly */
+}
+
+/* ================================================
+   UI Fixes - Modal Row Spacing & Button Heights
+   ================================================ */
+
+/* Task 4: Standardize row spacing in Unavailable and Deleted modals */
+#unavailableList .playlist-item,
+#deletedList .playlist-item {
+    padding: 6px 8px;
+    min-height: 32px;
+}
+
+/* Task 5: Hide redundant progress text below progress bar */
+#backupProgressText {
+    display: none;
+}
+
+/* Task 6: Style download delay input to match duration inputs */
+#downloadDelay {
+    width: 60px;
+    padding: 5px;
+    background-color: #444;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Task 8: Standardize button heights (match Change Music Dir button) */
+button {
+    min-height: 26px;
+}
+
+.primary-btn,
+.danger-btn,
+.unavailable-btn,
+.deleted-btn,
+#browseBtn,
+#importCSVBtn,
+#exportCSVBtn,
+#downloadMusicBtn,
+#createPermutationBtn {
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Smaller buttons in modals and lists retain smaller size */
+#unavailableList button,
+#deletedList button,
+.backup-buttons button:not(.primary-btn) {
+    min-height: 24px;
+    height: auto;
+}

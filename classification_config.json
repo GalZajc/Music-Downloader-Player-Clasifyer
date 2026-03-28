@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Category",
+    "values": [
+      "PowerMetal",
+      "PopPunk, PopRock",
+      "Rock",
+      "Pop, EDM,R&B",
+      "Country",
+      "Acoustic",
+      "PyrateMetal",
+      "FolkMetal, FolkRock, Folk",
+      "SymphonicMetal",
+      "TrashMetal",
+      "Instrumental",
+      "Epic",
+      "OtherMetal",
+      "Jazz",
+      "Funk",
+      "Multiple Songs - Different"
+    ]
+  },
+  {
+    "name": "Tier",
+    "values": [
+      "S++",
+      "S+",
+      "S",
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ]
+  },
+  {
+    "name": "Happyness",
+    "values": [
+      "+2",
+      "+1",
+      " 0",
+      "-1",
+      "-2"
+    ]
+  },
+  {
+    "name": "Version",
+    "values": [
+      "Studio - Good",
+      "Studio - Bad",
+      "Live - Good",
+      "Live - Bad",
+      "Live - Multiple Songs"
+    ]
+  }
+]

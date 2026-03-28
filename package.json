@@ -1,0 +1,15 @@
+{
+  "name": "mp3-category-player",
+  "version": "1.0.0",
+  "description": "MP3 Category Player and Classifier",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.0.0"
+  }
+}

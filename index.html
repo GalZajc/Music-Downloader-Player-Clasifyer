@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Downloader + Player + Clasifyer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <div class="main-container">
+            <!-- Header Section -->
+            <div class="section header-section">
+                <div class="header-left">
+                    <button id="browseBtn">📁 Change Music Dir</button>
+                    <button id="importCSVBtn"><span class="arrow-icon white-icon">🡇</span> Import
+                        Classifications</button>
+                    <button id="exportCSVBtn"><span class="arrow-icon white-icon">🡇</span> Export
+                        Classifications</button>
+                </div>
+                <div class="header-right">
+                    <button id="downloadMusicBtn" class="primary-btn"><span class="arrow-icon">🡇</span> Download
+                        Music</button>
+                    <button id="createPermutationBtn" class="primary-btn">✨ Create Permutation</button>
+                </div>
+            </div>
+
+            <!-- Current Song Display (Smaller Font) -->
+            <!-- Player Group -->
+            <div class="section player-group">
+                <div class="song-info-wrapper" style="margin-bottom: 5px;">
+                    <span id="songInfoLeft">No song selected</span>
+                </div>
+
+                <div class="timeline-container" style="margin-bottom: 5px;">
+                    <span id="currentTime">0:00</span>
+                    <input type="range" id="timeline" min="0" max="100" value="0" step="0.1">
+                    <span id="duration">0:00</span>
+                </div>
+
+                <div class="control-section-inner" style="justify-content: flex-start;">
+                    <button id="prevBtn">⏮ Prev</button>
+                    <button id="playPauseBtn">⏯ Play</button>
+                    <button id="nextBtn">⏭ Next</button>
+                    <button id="openPlayerBtn">🎵 System Player</button>
+                    <button id="openYTBtn">📺 YouTube</button>
+
+
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="autoNextCheck" checked>
+                        Auto Next
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="normalizeCheck" checked>
+                        Normalize
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="monoCheck">
+                        Mono
+                    </label>
+                </div>
+            </div>
+
+            <!-- Classifications -->
+            <div class="section classifications-section">
+                <div class="section-header"
+                    style="display: flex; align-items: center; border: none; background: none; padding-left: 0;">
+                    <div class="section-title"
+                        style="margin-bottom: 0; border: none; background: none; color: #e0e0e0; padding: 0;">
+                        Classifications
+                        <small style="color: #aaa; margin-left: 2px;">(press ⏎ to confirm)</small>
+                    </div>
+                    <span style="font-size: 16px; color: #555; margin: 0 8px;">|</span>
+                    <div id="stats" class="header-stats"></div>
+                </div>
+                <div class="classifications-container">
+                    <div class="horizontal-scroll">
+                        <div id="classificationsContent"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Thumbnail Sidebar -->
+        <div class="sidebar-wrapper">
+            <!-- Width handled by CSS (55px), just centering here -->
+            <button id="centerSongBtn" title="Center Current Song">🎯</button>
+            <div class="thumbnail-sidebar" id="thumbnailSidebar">
+                <!-- Thumbnails will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Permutation Config Modal -->
+    <div id="permutationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Permutation</h2>
+                <span class="close">×</span>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Check all options you want to include in your song permutation</p>
+                <div class="filter-options">
+                    <div class="horizontal-scroll">
+                        <div id="permutationContent"></div>
+                    </div>
+                </div>
+                <div class="playlist-trigger-section">
+                    <button id="openPlaylistSelectorBtn">Select Playlists (Optional)</button>
+                    <span id="selectedPlaylistsCount">None selected</span>
+                </div>
+                <div class="playlist-trigger-section">
+                    <button id="openSongSelectorBtn">Select Songs (Optional)</button>
+                    <span id="selectedSongsCount">None selected</span>
+                </div>
+                <div class="duration-filter-section">
+                    <label for="minDuration">Min Duration (min or mm:ss):</label>
+                    <input type="text" id="minDuration" step="0.1" placeholder="Min">
+                    <span>to</span>
+                    <input type="text" id="maxDuration" step="0.1" placeholder="Max">
+                </div>
+
+                <div id="durationProgressBarContainer" style="display: none; margin-top: 15px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="importConfigBtn">Import Config</button>
+                <button id="exportConfigBtn">Export Config</button>
+                <button id="createPermutationSubmitBtn">Create Permutation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Playlist Selection Modal -->
+    <div id="playlistModal" class="modal">
+        <div class="modal-content playlist-modal-content full-bleed-modal">
+            <div class="modal-header">
+                <h2>Select Playlists</h2>
+                <span class="close-playlists">×</span>
+            </div>
+            <div class="modal-body">
+                <!-- Header row same style as playlist items -->
+                <div class="playlist-item checkbox-item header-row"
+                    style="display: flex; align-items: center; padding: 5px 5px 5px 10px; cursor: default;">
+                    <input type="checkbox" id="selectAllPlaylists" style="margin-right: 8px;">
+                    <label for="selectAllPlaylists" style="white-space: nowrap; cursor: pointer;">Select All</label>
+
+                    <input type="text" id="playlistSearch" placeholder="Search playlists..."
+                        style="margin: 0 10px; padding: 2px; flex: 1; min-height: 20px;">
+
+                    <span style="white-space: nowrap; margin-right: 5px;">Sort by:</span>
+                    <select id="playlistSortSelect" style="padding: 1px; height: 20px;">
+                        <option value="name">Name</option>
+                        <option value="count">Count</option>
+                    </select>
+                </div>
+                <div class="playlist-list" id="playlistList">
+                    <!-- Playlists will be injected here -->
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <button id="confirmPlaylistsBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Song Selection Modal -->
+    <div id="songModal" class="modal">
+        <div class="modal-content playlist-modal-content full-bleed-modal">
+            <div class="modal-header">
+                <h2>Select Songs</h2>
+                <span class="close-songs">×</span>
+            </div>
+            <div class="modal-body">
+                <!-- Header row same style as song items -->
+                <div class="playlist-item checkbox-item header-row"
+                    style="display: flex; align-items: center; padding: 5px 5px 5px 10px; cursor: default;">
+                    <input type="checkbox" id="selectAllSongs" style="margin-right: 8px;">
+                    <label for="selectAllSongs" style="white-space: nowrap; cursor: pointer;">Select All</label>
+
+                    <input type="text" id="songSearch" placeholder="Search songs..."
+                        style="margin: 0 10px; padding: 2px; flex: 1; min-height: 20px;">
+
+                    <span style="white-space: nowrap; margin-right: 5px;">Sort by:</span>
+                    <select id="songSortSelect" style="padding: 1px; height: 20px;">
+                        <option value="name">Name</option>
+                        <option value="duration">Duration</option>
+                    </select>
+                </div>
+                <div class="playlist-list" id="songList">
+                    <!-- Songs will be injected here -->
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <button id="confirmSongsBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="audioPlayer"></audio>
+
+
+    <!-- First-Time Setup Modal -->
+    <div id="setupModal" class="modal">
+        <div class="modal-content setup-modal-content">
+            <div class="modal-header">
+                <h2>Welcome to Music Downloader + Player + Clasifyer</h2>
+            </div>
+            <div class="modal-body">
+                <div class="setup-load-config">
+                    <span>Have a Config.json?</span>
+                    <button id="setupLoadDefaultConfigBtn">Load Default Config</button>
+                    <button id="setupLoadConfigBtn">Load Other Config</button>
+                </div>
+
+                <p class="modal-subtitle">Or set up manually:</p>
+
+                <div class="setup-section">
+                    <div class="setup-item">
+                        <span class="setup-number">1</span>
+                        <div class="setup-content">
+                            <label>Music Directory:</label>
+                            <div class="setup-row">
+                                <input type="text" id="setupDirPath" readonly placeholder="Select your music folder...">
+                                <button id="setupBrowseBtn">Browse</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setup-item">
+                        <span class="setup-number">2</span>
+                        <div class="setup-content">
+                            <label>Classification CSV (Optional):</label>
+                            <div class="setup-row">
+                                <input type="text" id="setupCSVPath" readonly
+                                    placeholder="Import existing classifications...">
+                                <button id="setupCSVBtn">Import</button>
+                                <button id="setupUpdateCSVBtn" title="Select newer CSV file">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setup-item">
+                        <span class="setup-number">3</span>
+                        <div class="setup-content">
+                            <label>Permutation Config (Optional):</label>
+                            <div class="setup-row">
+                                <input type="text" id="setupPermPath" readonly
+                                    placeholder="Import permutation filter...">
+                                <button id="setupPermBtn">Import</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="setupStartBtn">Start</button>
+                <button id="setupCompleteBtn">Save Config & Start</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Startup Scan Modal -->
+    <div id="startupScanModal" class="modal" style="display: none;">
+        <div class="modal-content setup-modal-content">
+            <div class="modal-header">
+                <h2>Analyzing Music Library</h2>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Scanning for durations and volume peaks. This only happens once for new songs.
+                </p>
+                <div style="margin-top: 20px;">
+                    <div style="font-size: 13px; margin-bottom: 8px; color: #ccc;">Overall Progress: <span
+                            id="startupProgressText">0%</span></div>
+                    <div class="progress-bar-bg"
+                        style="width: 100%; background: #333; height: 12px; border-radius: 6px; overflow: hidden;">
+                        <div id="startupProgressBar"
+                            style="width: 0%; height: 100%; background: #00ffaa; transition: width 0.1s;"></div>
+                    </div>
+                </div>
+                <div id="startupStatus" style="margin-top: 10px; font-size: 11px; color: #888; text-align: center;">
+                    Initializing...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Backup Modal -->
+    <div id="backupModal" class="modal">
+        <div class="modal-content backup-modal-content full-bleed-modal">
+            <div class="modal-header">
+                <h2><span class="arrow-icon">🡇</span> Download Music from YouTube</h2>
+                <span class="close-backup">×</span>
+            </div>
+            <div class="modal-body">
+                <!-- Top row: Buttons only -->
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="browseTakeoutBtn">📁 Change Takeout Playlists Dir</button>
+                    <span style="flex: 1;"></span>
+                    <button id="manageDeletedBtn" class="deleted-btn"
+                        title="These files were previously downloaded but have been deleted from disk. Select files to restore (re-download) them."
+                        style="padding: 8px 12px;">🗑 Songs I Deleted</button>
+                    <button id="manageUnavailableBtn" class="unavailable-btn"
+                        title="Videos marked as unavailable will be skipped by standard downloads. You can retry downloading them or ignore them to hide them from this list."
+                        style="padding: 8px 12px;">⚠ Unavailable Songs</button>
+                </div>
+
+                <!-- Playlist selector - starts immediately after folder row -->
+                <div class="backup-playlist-section">
+                    <div
+                        style="display: flex; align-items: center; padding: 5px 5px 5px 5px; cursor: default; background-color: #2a2a2a; border-bottom: 1px solid #444;">
+                        <input type="checkbox" id="selectAllBackupPlaylists" style="margin: 0;">
+                        <label for="selectAllBackupPlaylists"
+                            style="white-space: nowrap; cursor: pointer; margin: 0 5px 0 5px;">Select All</label>
+
+                        <input type="text" id="backupPlaylistSearch" placeholder="Search playlists..."
+                            style="padding: 2px 5px; width: 220px; min-height: 20px; margin: 0; border: 1px solid #555; background-color: #333;">
+
+                        <div style="flex: 1;"></div>
+
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <span style="white-space: nowrap;">Sort by:</span>
+                            <select id="backupPlaylistSortSelect" style="padding: 1px; height: 20px;">
+                                <option value="name">Name</option>
+                                <option value="count"># of videos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="playlist-list" id="backupPlaylistList">
+                        <div class="backup-placeholder">Load playlists by selecting a Takeout folder above</div>
+                    </div>
+                </div>
+
+                <!-- Download controls -->
+                <div class="backup-controls-wrap">
+                    <div class="backup-buttons">
+                        <button id="startDownloadBtn" class="primary-btn"><span class="arrow-icon">🡇</span> Start
+                            Download</button>
+                        <button id="generateLinksOnlyBtn">🔗 Update Playlists Data</button>
+                    </div>
+                    <div class="backup-settings-row">
+                        <div class="backup-limit-section">
+                            <label>Max Downloads:</label>
+                            <input type="number" id="maxDownloads" value="1000" min="1"
+                                class="dark-input dark-input-small">
+                        </div>
+                        <div class="backup-delay-section">
+                            <label>Delay [s]:</label>
+                            <input type="number" id="downloadDelay" value="2" min="0" step="0.5"
+                                class="dark-input dark-input-small">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="backup-progress">
+                    <div id="backupStatus">Ready - Select a Takeout folder and load playlists</div>
+                    <div id="backupProgressCounts" style="font-size: 11px; color: #e0e0e0;"></div>
+                    <div class="progress-bar-bg" style="position: relative;">
+                        <div id="backupProgressBarSuccess"
+                            style="width: 0%; height: 100%; background: #4CAF50; position: absolute; left: 0;"></div>
+                        <div id="backupProgressBarFailed"
+                            style="width: 0%; height: 100%; background: #f44336; position: absolute;"></div>
+                    </div>
+                    <div id="backupProgressText" style="font-size: 11px; display: flex; gap: 5px;">
+                        <span id="backupItemName"
+                            style="color: #aaa; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unavailable Videos Manager Modal -->
+    <div id="unavailableModal" class="modal">
+        <div class="modal-content playlist-modal-content full-bleed-modal">
+            <div class="modal-header">
+                <h2>🚫 Unavailable Videos</h2>
+                <span class="close-unavailable">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="playlist-item checkbox-item header-row"
+                    style="display: flex; align-items: center; padding: 5px 5px 5px 10px; cursor: default;">
+                    <input type="checkbox" id="selectAllUnavailable" style="margin-right: 8px;">
+                    <label for="selectAllUnavailable"
+                        style="white-space: nowrap; cursor: pointer; margin-right: 15px;">Select All</label>
+
+                    <span style="white-space: nowrap; margin-right: 5px; font-size: 11px; color: #aaa;">Sort by:</span>
+                    <select id="unavailableSortSelect" class="dark-mode-select" style="margin-right: 15px;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="id">Video ID</option>
+                        <option value="rd_or_ru">🔴 🟠 🟡</option>
+                        <option value="rd_ru_or">🔴 🟡 🟠</option>
+                        <option value="or_rd_ru">🟠 🔴 🟡</option>
+                        <option value="or_ru_rd">🟠 🟡 🔴</option>
+                        <option value="ru_rd_or">🟡 🔴 🟠</option>
+                        <option value="ru_or_rd">🟡 🟠 🔴</option>
+                    </select>
+
+                    <span style="flex: 1;"></span>
+
+                    <button id="retryUnavailableBtn" class="primary-btn"><span class="arrow-icon">🡇</span> Retry
+                        Selected</button>
+                    <button id="removeUnavailableBtn" class="danger-btn">Ignore Selected</button>
+                </div>
+                <div class="playlist-list" id="unavailableList">
+                    <!-- Unavailable videos listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manually Deleted Files Modal -->
+    <div id="manuallyDeletedModal" class="modal">
+        <div class="modal-content playlist-modal-content full-bleed-modal">
+            <div class="modal-header">
+                <h2>🗑 Songs I Deleted</h2>
+                <span class="close-deleted">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="playlist-item checkbox-item header-row"
+                    style="display: flex; align-items: center; padding: 5px 5px 5px 10px; cursor: default;">
+                    <input type="checkbox" id="selectAllDeleted" style="margin-right: 8px;">
+                    <label for="selectAllDeleted"
+                        style="white-space: nowrap; cursor: pointer; margin-right: 15px;">Select All</label>
+
+                    <span style="white-space: nowrap; margin-right: 5px; font-size: 11px; color: #aaa;">Sort by:</span>
+                    <select id="deletedSortSelect" class="dark-mode-select" style="margin-right: 15px;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="id">Video ID</option>
+                        <option value="rd_or">🔴 🟠</option>
+                        <option value="or_rd">🟠 🔴</option>
+                    </select>
+
+                    <span style="flex: 1;"></span>
+                    <button id="restoreDeletedBtn" class="primary-btn"><span class="arrow-icon">🡇</span> Restore
+                        Selected</button>
+                </div>
+                <div class="playlist-list" id="deletedList">
+                    <!-- Deleted videos listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Assistant Modal (Hidden by default, shown on age-restriction error) -->
+    <div id="cookieModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>🍪 Cookie Assistant (Age Restriction)</h2>
+                <span class="close-cookie">×</span>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 12px; line-height: 1.4;">One or more videos are **age-restricted**. To download
+                    them, you need to provide a `cookies.txt` file from your browser where you are logged into YouTube.
+                </p>
+
+                <div
+                    style="background: #333; padding: 10px; border-radius: 4px; margin-bottom: 15px; border-left: 4px solid #5a9fd4;">
+                    <div style="font-weight: bold; margin-bottom: 5px; color: #5a9fd4;">How to get cookies:</div>
+                    <ol style="margin-left: 20px; font-size: 11px; color: #ccc;">
+                        <li>Install <b>"Get cookies.txt LOCALLY"</b> extension (<a href="#"
+                                onclick="window.electronAPI.openExternal('https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc'); return false;"
+                                style="color: #00aaff;">Chrome</a> / <a href="#"
+                                onclick="window.electronAPI.openExternal('https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/'); return false;"
+                                style="color: #00aaff;">Firefox</a>).</li>
+                        <li>Open YouTube and click the extension icon.</li>
+                        <li>Click <b>"Export AS TEXT"</b> (Netscape format).</li>
+                    </ol>
+                </div>
+
+                <div
+                    style="display: flex; flex-direction: column; gap: 10px; align-items: center; padding: 20px; border: 2px dashed #444; border-radius: 8px; background: #222;">
+                    <span style="color: #888;">Step 2: Upload the exported file</span>
+                    <button id="uploadCookiesBtn" class="primary-btn" style="padding: 10px 20px;">📁 Select
+                        cookies.txt</button>
+                    <span id="cookieUploadStatus" style="font-size: 10px; color: #4CAF50;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="ytBackup.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
