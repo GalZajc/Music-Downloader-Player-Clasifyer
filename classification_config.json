@@ -17,7 +17,8 @@
       "OtherMetal",
       "Jazz",
       "Funk",
-      "Multiple Songs - Different"
+      "Multiple Songs - Different",
+      "Not Music"
     ]
   },
   {
@@ -31,7 +32,8 @@
       "C",
       "D",
       "E",
-      "F"
+      "F",
+      "Not Music"
     ]
   },
   {
@@ -41,7 +43,8 @@
       "+1",
       " 0",
       "-1",
-      "-2"
+      "-2",
+      "Not Music"
     ]
   },
   {
@@ -49,9 +52,17 @@
     "values": [
       "Studio - Good",
       "Studio - Bad",
+      "Studio - Multiple Songs",
+      "Studio - To Edit",
       "Live - Good",
       "Live - Bad",
-      "Live - Multiple Songs"
+      "Live - Multiple Songs",
+      "Live - To Edit",
+      "Live>Studio - Good",
+      "Live>Studio - Bad",
+      "Live Exclusive - Good",
+      "Live Exclusive - Bad",
+      "Not Music"
     ]
   }
 ]
